@@ -130,9 +130,10 @@ class AutoDocstring:
         ``` 
         """
         if not isinstance(obj, ast.FunctionDef): return
-        aw.append(obj.lineno)
+
         if blocked:
             print(f'skipped method: {obj.name}, because of the ignored_classes -> sub_methods')
+            aw.append(obj.lineno)
             return
         docs = ast.get_docstring(obj)
         if type == 'function': 
@@ -146,7 +147,7 @@ class AutoDocstring:
                 print(f'skipped method: {_hClass.name} -> {obj.name}, because of the ignored_methods')
                 return
             self.doc_method(obj.name, _hClass.name, docs)
-        
+        aw.append(obj.lineno)
     def generate(self):
         """
         The Entry point for creating auto-docs.

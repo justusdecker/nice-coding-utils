@@ -1,0 +1,2 @@
+push:
+	python -c "import ncu; ncu.UpdateVersion('./ncu/__init__.py').update_version();"

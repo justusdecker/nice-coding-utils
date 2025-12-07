@@ -1,5 +1,7 @@
 # AutoDocstring by Justus Decker
 
+### file_write
+Writes to a file in `wb` mode
 ## AutoDocstring
 Gets all Docstrings contained in the `{current_folder}` & subdirectories and saves it to `{self.filepath}`.
 ### doc -> AutoDocstring
