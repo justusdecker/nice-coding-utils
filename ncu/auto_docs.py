@@ -20,7 +20,7 @@ def file_write(filepath : str, data : str):
 # ignore-functions
 # ignore-classes
 
-class AutoDocstring:
+class AutoDocs:
     """
     Gets all Docstrings contained in the `{current_folder}` & subdirectories and saves it to `{self.filepath}`.
     """
@@ -47,7 +47,7 @@ class AutoDocstring:
         self.filepath = filepath
         self.NUM_DOCS = 0
         self.NO_DOCS = 0
-        self.DOCS = '# AutoDocstring by Justus Decker\n\n'
+        self.DOCS = '# AutoDocs\n\n'
     
     def fnil(self, p: str, l: list[str]) -> bool:
         return os.path.basename(p).replace('.py','') in l
@@ -70,9 +70,8 @@ class AutoDocstring:
         return True
     
     def doc_path(self, path: str, docs: str):
-        if not self.doc_inc(docs): return
         self.doc(f'# {path}')
-        self.doc(docs)
+        self.doc(docs if docs is not None else '')
     
     def doc_class(self, _class: str, docs: str):
         if not self.doc_inc(docs): return
@@ -119,7 +118,7 @@ class AutoDocstring:
             class_docs = ast.get_docstring(obj)
             self.doc_class(obj.name, class_docs)
         for func in obj.body:
-            self.__funcmeth_fetch(func, aw, AutoDocstring.METHOD, obj, blocked)
+            self.__funcmeth_fetch(func, aw, AutoDocs.METHOD, obj, blocked)
                     
     def __funcmeth_fetch(self, obj, aw: list[int], type: str, _hClass = None, blocked = False):
         """
@@ -154,7 +153,7 @@ class AutoDocstring:
         Creates a file automatically.
         """
         
-        paths = AutoDocstring.get_python_paths()
+        paths = AutoDocs.get_python_paths()
         for path in paths:
             
             if self.fnil(path, self.ignored_filenames): 
@@ -169,13 +168,13 @@ class AutoDocstring:
             already_written = []
             for n in ast.walk(tree):
                 self.__class_fetch(n, already_written)
-                self.__funcmeth_fetch(n, already_written, AutoDocstring.FUNCTION)
+                self.__funcmeth_fetch(n, already_written, AutoDocs.FUNCTION)
         file_write(self.filepath, self.DOCS)
         print(self.NO_DOCS / self.NUM_DOCS, self.NUM_DOCS, self.NO_DOCS)
 
 
 if __name__ == '__main__':
-    AutoDocstring("./docs/auto-docs.md",
+    AutoDocs("./docs/auto-docs.md",
                   ['__init__'],
                   ['__init__'],
                   [],

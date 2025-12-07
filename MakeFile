@@ -1,2 +1,3 @@
 push:
-	python -c "import ncu; ncu.UpdateVersion('./ncu/__init__.py').update_version();"
+	python -c "import ncu; ncu.UpdateVersion('./ncu/__init__.py');"
+	python -c "import ncu; ncu.AutoDocs('./docs/auto-docs.md',['__init__'],['__init__'],[],[]).generate()"
